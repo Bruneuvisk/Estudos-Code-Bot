@@ -3,5 +3,7 @@
   "prefix": "SEU_PREFIXO",
   "color": "SUA_COR",
   "clientID": "ID_DO_SEU_BOT",
-  "invite": "CONVITE_DO_BOT"
+  "invite": "CONVITE_DO_BOT",
+  "mongoDB": "URL_DATABASE/Data",
+  "owner": "SEU_ID_DO_DISCORD"
 }

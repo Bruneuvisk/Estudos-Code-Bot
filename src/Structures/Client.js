@@ -1,6 +1,6 @@
 // Importa as classes e métodos necessários do pacote discord.js
 const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
-
+const mongoose = require("mongoose")
 // Define a classe customizada EstudosCode que estende a classe Client do Discord.js
 class EstudosCode extends Client {
 
@@ -50,6 +50,8 @@ class EstudosCode extends Client {
         // Coleção para armazenar os comandos gerais do bot
         this.commands = new Collection();
 
+        this.cooldown = new Collection()
+
         // Caso o token não tenha sido definido, ele será recuperado do arquivo de configuração
         if (!this.token) this.token = this.config.token;
 
@@ -57,6 +59,24 @@ class EstudosCode extends Client {
         this.rest.on('rateLimited', (info) => {
           // Registra um log quando o limite de requisições é atingido
           this.logger.log("rateLimit", "log");
+        });
+
+        const dbOptions = {
+          autoIndex: false,
+          connectTimeoutMS: 10000,
+          family: 4
+        };
+
+        mongoose.connect(this.config.mongoDB, dbOptions);
+        mongoose.Promise = global.Promise;
+        mongoose.connection.on('connected', () => {
+            this.logger.log('[DATABASE MONGOOSE] - Conectado ao Banco de Dados Mongoose.', "ready");
+        });
+        mongoose.connection.on('err', (err) => {
+            console.log(`Error no banco dados Mongoose: \n ${err.stack}`);
+        });
+        mongoose.connection.on('disconnected', () => {
+            console.log(`Error Banco dados Disconectado.`);
         });
     }
 

@@ -1,5 +1,9 @@
 // Importa a enumeração ActivityType do pacote discord.js para definir o tipo de atividade do bot
 const { ActivityType } = require("discord.js");
+const Guild = require("../Database/Schema/Guild")
+const Member = require("../Database/Schema/Member")
+const Client = require("../Database/Schema/Client")
+const Commands = require("../Database/Schema/Command")
 
 module.exports = {
   // Nome do evento, neste caso é 'ready'
@@ -10,6 +14,11 @@ module.exports = {
    * @param {Client} client - O cliente do Discord
    */
   run: async (client) => {
+
+    client.database.cliente = Client;
+    client.database.members = Member;
+    client.database.servidores = Guild;
+    client.database.commands = Commands;
     // Define a atividade do bot para 'assistindo' com uma mensagem personalizada
     client.user.setActivity('Sou o bot de teste do meu canal do youtube @EstudosCode segue lá!', { type: ActivityType.Watching });
 
