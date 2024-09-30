@@ -54,6 +54,12 @@ module.exports = {
               description: `Lista os meus comandos de informações`,
               emoji: { name: "1️⃣", animated: false },
               value: "1",
+            },
+            {
+              label: `Comandos de Configurações - [${slashCommands.filter(command => command.category == "config").size}]`,
+              description: `Lista os meus comandos de informações`,
+              emoji: { name: "2️⃣", animated: false },
+              value: "2",
             }
           ])
 
@@ -71,7 +77,7 @@ module.exports = {
 
           if(i.isButton() && i.customId == "avancar_id") {
             page++
-            if(page == 1) {
+            if(page == 2) {
                 bnt1 = ButtonBuilder.from(bnt1).setDisabled(true)
                 bnt2 = ButtonBuilder.from(bnt2).setDisabled(false)
             } else {
@@ -98,6 +104,12 @@ module.exports = {
               bnt1 = ButtonBuilder.from(bnt1).setDisabled(false)
               rowbnt = new ActionRowBuilder().addComponents(bnt2, bnt1)
               interaction.editReply({ embeds: [getEmbedPage(1)], components: [rowbnt, rowmenu] })
+            } else if(i.values.includes("2")) {
+              page = 2
+              bnt2 = ButtonBuilder.from(bnt2).setDisabled(false)
+              bnt1 = ButtonBuilder.from(bnt1).setDisabled(false)
+              rowbnt = new ActionRowBuilder().addComponents(bnt2, bnt1)
+              interaction.editReply({ embeds: [getEmbedPage(2)], components: [rowbnt, rowmenu] })
             }
           }
       })
@@ -124,6 +136,13 @@ module.exports = {
           let embednew = new EmbedBuilder()
             .setTitle("Sistema de Ajuda")
             .setDescription(`${interaction.member}, *estamos agora na parte de categoria de **__Informações__** essa parte exibe os comandos para lhe informar de algo útil sobre mim/discord então abaixo eu listo os mesmos.* \n\n **__Comandos de Informações:__** \n \`${slashCommands.filter(command => command.category == "info").map(command => command.name).join('\`, \`')}\` \n\n **Para ver o comando especificamente dê o comando \`/help nome_do_comando\`.**`)
+            .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+            .setColor(color)
+          return embednew
+        }  else if(page == 2) {
+          let embednew = new EmbedBuilder()
+            .setTitle("Sistema de Ajuda")
+            .setDescription(`${interaction.member}, *estamos agora na parte de categoria de **__Configurações__** essa parte exibe os comandos de configurações dos meus sistemas, abaixo listo os mesmos.* \n\n **__Comandos de Configurações:__** \n \`${slashCommands.filter(command => command.category == "config").map(command => command.name).join('\`, \`')}\` \n\n **Para ver o comando especificamente dê o comando \`/help nome_do_comando\`.**`)
             .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
             .setColor(color)
           return embednew

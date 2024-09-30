@@ -7,6 +7,12 @@ let guildSchema = new Schema({
     channels: { type: Array, default: [] },
     cmds: { type: Array, default: [] }
   },
+  modmail: {
+    status: { type: Boolean, default: false },
+    staff: { type: String, default: "null" },
+    logs: { type: String, default: "null" },
+    category: { type: String, default: "null" },
+  }
 })
 
 let Guild = mongoose.model("guilds", guildSchema);

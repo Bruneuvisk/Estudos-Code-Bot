@@ -34,7 +34,7 @@ module.exports = {
       // Adiciona um rodapé (footer) com o ícone e o nome do servidor ou o avatar do bot
       .setFooter({
         text: "Ping!!",
-        iconURL: `${interaction.guild.iconURL({ dynamic: true }) || client.user.displayAvatarURL({ dynamic: true })}` // Usa o ícone do servidor ou o avatar do bot
+        iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` // Usa o ícone do servidor ou o avatar do bot
       });
 
     // Responde à interação com um conteúdo de texto e a embed criada

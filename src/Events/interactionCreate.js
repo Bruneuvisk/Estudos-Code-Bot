@@ -20,9 +20,18 @@ module.exports = {
   run: async (client, interaction) => {
     // Verifica se a interação é um comando de barra (slash command)
     if (interaction.type === InteractionType.ApplicationCommand) {
+
       // Obtém o comando de barra associado ao nome do comando
       const SlashCommands = client.slashCommands.get(interaction.commandName);
       if (!SlashCommands) return;
+
+      let prefix = client.config.prefix;
+      let color = client.config.color;
+      let config = client.config;
+
+      if(interaction.channel.type === ChannelType.DM) {
+        return await SlashCommands.run(client, interaction, config, prefix, color);
+      }
 
       const cliente = await getClientDatabase(client)
       const server = await getGuildDatabase(client, interaction.guild.id)
@@ -48,9 +57,7 @@ module.exports = {
 
 
       // Obtém o prefixo, cor e configuração do bot a partir da configuração
-      let prefix = client.config.prefix;
-      let color = client.config.color;
-      let config = client.config;
+
 
       const now = Date.now()
       let timestamps = cooldowns.get(SlashCommands.name)
